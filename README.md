@@ -12,8 +12,8 @@
 
 This is minimal setup to reproduce error which I get with following steps:
 
-0. Start any standard Substrate node, no matter which, just to enable
-   the ChainBridge server
+0. Start in localhost any standard Substrate node, no matter which,
+   just to enable the ChainBridge server
 
 1. Start Ganache and deploy sols:
 
