@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cb-sol-cli erc20 balance --address ff93B45308FD417dF303D6515aB04D9e89a750Ca

@@ -1,0 +1,19 @@
+FROM chainsafe/chainbridge-geth:20200505131100-5586a65
+
+RUN \
+    apk add --no-cache bash git npm && \
+    npm install ganache-cli@v6.10.1 && \
+    git clone https://github.com/ChainSafe/chainbridge-deploy && \
+    cd $HOME/chainbridge-deploy/cb-sol-cli && \
+    git clone https://github.com/ChainSafe/chainbridge-solidity && \
+    cd chainbridge-solidity && \
+    npm install && \
+    npx truffle compile && \
+    cd $HOME/chainbridge-deploy/cb-sol-cli && \
+    npm link .
+
+COPY transfer-charlie /usr/local/bin/transfer-charlie
+COPY show-balance /usr/local/bin/show-balance
+COPY ganache.sh entrypoint.sh
+
+ENTRYPOINT ./entrypoint.sh
