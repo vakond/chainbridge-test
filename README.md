@@ -1,13 +1,14 @@
 # Description: The ChainBridge server fails when trying to transfer Eth->Sub
 
-List of files:
-- Dockerfile.ganache -- based on image chainsafe/chainbridge-geth:20200505131100-5586a65
-- ganache.sh         -- entrypoint for the ganache container (will be installed automatically)
-- show-balance       -- cb-sol-cli command to check a balance (will be installed automatically)
-- transfer-charlie   -- cb-sol-cli command to initiate a transfer Eth->Sub (will be installed automatically)
-- Dockerfile.chainbridge
-- chainbridge.sh     -- entrypoint for the chainbridge container (will be installed automatically)
-- config.json        -- a config file for the ChainBridge server (will be installed automatically)
+|Files||
+|-----|--|
+|Dockerfile.ganache|based on image chainsafe/chainbridge-geth:20200505131100-5586a65|
+|ganache.sh|entrypoint for the ganache container (will be installed automatically)|
+|show-balance|cb-sol-cli command to check a balance (will be installed automatically)|
+|transfer-charlie|cb-sol-cli command to initiate a transfer Eth->Sub (will be installed automatically)|
+|Dockerfile.chainbridge||
+|chainbridge.sh|entrypoint for the chainbridge container (will be installed automatically)|
+|config.json|a config file for the ChainBridge server (will be installed automatically)|
 
 This is minimal setup to reproduce error which I get with following steps:
 
@@ -15,23 +16,27 @@ This is minimal setup to reproduce error which I get with following steps:
    the ChainBridge server
 
 1. Start Ganache and deploy sols:
-   docker stop ganache && docker rm --force ganache
-   docker build --force-rm --file Dockerfile.ganache --tag ganache .
-   docker run --name ganache --publish 8545:8545 ganache
+
+       docker stop ganache && docker rm --force ganache
+       docker build --force-rm --file Dockerfile.ganache --tag ganache .
+       docker run --name ganache --publish 8545:8545 ganache
 
 2. Start the ChainBridge:
-   docker stop chainbridge && docker rm --force chainbridge
-   docker build --force-rm --file Dockerfile.chainbridge --tag chainbridge .
-   docker run --name chainbridge --network host chainbridge
+
+       docker stop chainbridge && docker rm --force chainbridge
+       docker build --force-rm --file Dockerfile.chainbridge --tag chainbridge .
+       docker run --name chainbridge --network host chainbridge
 
 3. Check Ganache:
-   docker exec ganache show-balance
-   => [erc20/balance] Account ff93B45308FD417dF303D6515aB04D9e89a750Ca has a balance of 1000000.0
+
+       docker exec ganache show-balance
+       => [erc20/balance] Account ff93B45308FD417dF303D6515aB04D9e89a750Ca has a balance of 1000000.0
 
 4. Make the transfer:
-   docker exec ganache transfer-charlie
-   => [erc20/deposit] Creating deposit to initiate transfer!
-   => Waiting for tx: 0xc3b1be87037c52833efd2e06d9a8abf8cc30562d843dea206fae7e69586d4117...
+
+       docker exec ganache transfer-charlie
+       => [erc20/deposit] Creating deposit to initiate transfer!
+       => Waiting for tx: 0xc3b1be87037c52833efd2e06d9a8abf8cc30562d843dea206fae7e69586d4117...
 
 Result: The ChainBridge container will exit with error messages:
 
