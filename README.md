@@ -44,8 +44,8 @@ Result: The ChainBridge container will exit with error messages:
     msg="Connecting to substrate chain..." chain=sub url=ws://localhost:9944
     msg="Connecting to ethereum chain..." chain=geth url=ws://172.17.0.2:8545
     msg="Started sub chain" system=core
-    msg="Started ganache chain" system=core
-    msg="Polling Blocks..." chain=ganache
-    msg="Handling fungible deposit event" chain=ganache dest=1 nonce=1
-    msg="Error Unpacking ERC20 Deposit Record" chain=ganache err="abi: cannot marshal in to go slice: offset 1459086564571116054970388985452629756850408476906 would go over slice boundary (len=256)"
-    msg="Failed to get events for block" chain=ganache block=999 err="abi: cannot marshal in to go slice: offset 1459086564571116054970388985452629756850408476906 would go over slice boundary (len=256)"
+    msg="Started geth chain" system=core
+    msg="Polling Blocks..." chain=geth
+    msg="Handling fungible deposit event" chain=geth dest=1 nonce=1
+    msg="Error Unpacking ERC20 Deposit Record" chain=geth err="abi: cannot marshal in to go slice: offset 1459086564571116054970388985452629756850408476906 would go over slice boundary (len=256)"
+    msg="Failed to get events for block" chain=geth block=999 err="abi: cannot marshal in to go slice: offset 1459086564571116054970388985452629756850408476906 would go over slice boundary (len=256)"
