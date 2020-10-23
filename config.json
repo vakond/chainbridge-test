@@ -9,7 +9,7 @@
       "opts": {}
     },
     {
-      "name": "ganache",
+      "name": "geth",
       "type": "ethereum",
       "id": "0",
       "endpoint": "ws://172.17.0.2:8545",

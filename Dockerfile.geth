@@ -1,0 +1,28 @@
+FROM chainsafe/chainbridge-geth:20200505131100-5586a65
+
+WORKDIR /root
+
+RUN \
+    apk add --no-cache bash git npm && \
+    git clone https://github.com/ChainSafe/chainbridge-deploy && \
+    cd /root/chainbridge-deploy/cb-sol-cli && \
+    git clone https://github.com/ChainSafe/chainbridge-solidity && \
+    cd chainbridge-solidity && \
+    npm install && \
+    npx truffle compile && \
+    cd /root/chainbridge-deploy/cb-sol-cli && \
+    npm link .
+
+COPY genesis.json genesis.json
+COPY password.txt password.txt
+COPY keystore /root/keystore
+COPY transfer-charlie /usr/local/bin/transfer-charlie
+COPY show-balance /usr/local/bin/show-balance
+COPY geth.sh entrypoint.sh
+
+RUN \
+    chmod +x entrypoint.sh && \
+    chmod +x /usr/local/bin/show-balance && \
+    chmod +x /usr/local/bin/transfer-charlie
+
+ENTRYPOINT ["/root/entrypoint.sh"]

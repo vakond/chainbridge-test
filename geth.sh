@@ -11,22 +11,32 @@ set -m
 HOST=0.0.0.0 # listen all addresses to work in a container properly
 PORT=8545
 
-geth version
+geth init /root/genesis.json
 
-echo "Starting ganache..."
-/root/node_modules/.bin/ganache-cli --blockTime 0.1 \
-	    --gasLimit 60000000 \
-	    --host $HOST \
-	    --port $PORT \
-	    --account "0x000000000000000000000000000000000000000000000000000000616c696365,100000000000000000000" \
-	    --account "0x0000000000000000000000000000000000000000000000000000000000626f62,100000000000000000000" \
-	    --account "0x00000000000000000000000000000000000000000000000000636861726c6965,100000000000000000000" \
-	    --account "0x0000000000000000000000000000000000000000000000000000000064617665,100000000000000000000" \
-	    --account "0x0000000000000000000000000000000000000000000000000000000000657665,100000000000000000000" &
+rm -rf /root/.ethereum/keystore
+cp -r /root/keystore /root/.ethereum/
 
-sleep 5
+geth version &> geth.log
 
-echo "Deploying all smart contracts..."
+exec geth \
+    --nousb \
+    --nodiscover \
+    --unlock "0xff93B45308FD417dF303D6515aB04D9e89a750Ca","0x8e0a907331554AF72563Bd8D43051C2E64Be5d35","0x24962717f8fA5BA3b931bACaF9ac03924EB475a0","0x148FfB2074A9e59eD58142822b3eB3fcBffb0cd7","0x4CEEf6139f00F9F4535Ad19640Ff7A0137708485" \
+    --password /root/password.txt \
+    --ws \
+    --wsport $PORT \
+    --wsorigins="*" \
+    --wsaddr $HOST \
+    --rpc \
+    --rpcport $PORT \
+    --rpccorsdomain="*" \
+    --rpcaddr $HOST \
+    --networkid 5 \
+    --targetgaslimit 8000000 \
+    --allow-insecure-unlock \
+    --mine &>> geth.log &
+
+echo "Deploy all smart contracts"
 cb-sol-cli deploy --all --relayerThreshold 1
 
 echo "Registering resource for ERC20..."
@@ -50,7 +60,7 @@ cb-sol-cli erc20 approve --amount 1000000 \
 	   --recipient "0x3167776db165D8eA0f51790CA2bbf44Db5105ADF"
 
 echo
-echo "Ganache listening on $HOST:$PORT..."
+echo "Geth listening on $HOST:$PORT..."
 echo
 
 fg %1
