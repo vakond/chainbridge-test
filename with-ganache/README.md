@@ -19,13 +19,13 @@ This is minimal setup to reproduce error which I get with following steps:
 
        docker stop ganache && docker rm --force ganache
        docker build --force-rm --file Dockerfile.ganache --tag ganache .
-       docker run --name ganache --publish 8545:8545 ganache
+       docker run --rm --name ganache --publish 8545:8545 ganache
 
 2. Start the ChainBridge:
 
        docker stop chainbridge && docker rm --force chainbridge
        docker build --force-rm --file Dockerfile.chainbridge --tag chainbridge .
-       docker run --name chainbridge --network host chainbridge
+       docker run --rm --name chainbridge --network host chainbridge
 
 3. Check Ganache:
 

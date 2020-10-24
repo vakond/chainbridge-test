@@ -16,4 +16,9 @@ COPY transfer-charlie /usr/local/bin/transfer-charlie
 COPY show-balance /usr/local/bin/show-balance
 COPY ganache.sh entrypoint.sh
 
+RUN \
+    chmod +x entrypoint.sh && \
+    chmod +x /usr/local/bin/show-balance && \
+    chmod +x /usr/local/bin/transfer-charlie
+
 ENTRYPOINT ./entrypoint.sh
