@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Deposit some amount of tokens into Sub's Charlie account.
+# Note: recipient's value is the Charlie's PubKey.
+cb-sol-cli erc20 deposit --amount 1000 --dest 1 \
+	   --resourceId "0x000000000000000000000000000000c76ebe4a02bbc34786d860b355f5a5ce00" \
+	   --recipient "0x90b5ab205c6974c9ea841be688864633dc9ca8a357843eeacf2314649965fe22"

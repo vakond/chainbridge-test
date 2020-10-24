@@ -1,0 +1,17 @@
+FROM golang:1.13-alpine
+
+WORKDIR /root
+
+RUN \
+    apk add --no-cache git gcc musl-dev linux-headers && \
+    git clone https://github.com/ChainSafe/ChainBridge && \
+    cd ChainBridge/cmd/chainbridge && \
+    go install
+
+COPY config.json config.json
+COPY chainbridge.sh entrypoint.sh
+
+RUN \
+    chmod +x entrypoint.sh
+
+ENTRYPOINT ["/root/entrypoint.sh"]
