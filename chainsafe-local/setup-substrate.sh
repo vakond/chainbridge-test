@@ -23,6 +23,7 @@ cat <<SETTINGS
   "Weight": "u32"
 }
 SETTINGS
+echo 'Taken from here: https://gist.github.com/ansermino/0280b30594a9bc653ae288ccca46dc55'
 
 echo
 echo 'Registering Relayers'
